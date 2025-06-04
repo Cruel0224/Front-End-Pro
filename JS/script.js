@@ -6,7 +6,7 @@ const addNum2 = +prompt("Напиши друге число!");
 const addNum3 = +prompt("Напиши третє число!");
 
 // We calculate the arithmetic mean
-const average = (addNum1 + addNum2 + addNum3) / 3;
+const averageNumber = (addNum1 + addNum2 + addNum3) / 3;
 
 // Deriving the average using alert
-alert("Середнє арифметичне число: " + average);
+alert("Середнє арифметичне число: " + averageNumber);
