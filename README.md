@@ -1,19 +1,16 @@
-Part #1
+Attention: do not forget to use ternary operators, if necessary
 
-Create a script that should do the following:
+Write loops that can:
 
-- ask the user for their year of birth;
-- ask them where they live;
-- ask them what their favorite sport is.
-When they click OK, we show a window that should display the following information:
-
-- their age;
-- if the user specifies Kyiv, Washington, or London, we show them the message "You live in the capital..." and in place of the dots, we substitute the country whose capital is the city. Otherwise, we show them "you live in the city...", where the dots are the entered city.
-  
-Part #2
-
-- We choose three sports and three champions in these sports. However, if the user specifies one of these sports, we will show him the message “Cool! Do you want to become …?
-
-All this should be displayed in one window (alert).
-
-- If in any case he does not want to enter the information and clicks Cancel, show him the message – “It’s a pity that you did not want to enter your …” and indicate that he does not want to enter – date of birth, city or sport.
+1. Print the numbers from 10 to 20 on a single line separated by commas.
+2. Print the squares of the numbers from 10 to 20.
+3. Print the multiplication table for 7.
+4. Find the sum of all integers from 1 to 15.
+5. Find the product of all integers from 15 to 35.
+6. Find the arithmetic mean of all integers from 1 to 500.
+7. Print the sum of only even numbers in the range from 30 to 80.
+8. Print all numbers in the range from 100 to 200 that are multiples of 3.
+9. Given a natural number. Find and print all its divisors on the page.
+10. Determine the number of its even divisors.
+11. Find the sum of its even divisors.
+12. Print the complete multiplication table from 1 to 10.
