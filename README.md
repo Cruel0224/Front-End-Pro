@@ -1,5 +1,2 @@
-Task
-
-Write a function greetUser that takes one parameter, the username (a string),
-
-and returns a string like this: "Hello, [NAME]!"
+Implement the function generateKey(length, characters), 
+which returns a string of random characters from the set characters of length length.
