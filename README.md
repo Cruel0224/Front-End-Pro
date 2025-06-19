@@ -1,21 +1,16 @@
-You need to write an implementation of the padString function that takes 4 arguments:
+Given an array of numbers const arr = [1, 2, 3, -1, -2, -3];
 
-- string
+We need to write a function that will return a new array containing only positive numbers. To do this:
 
-- a number that is the long string that we want to get as a result of the function
+- Create a function with an arbitrary name.
+- The function accepts an array as a parameter.
+- In the body of the function, we create an empty array (example: const exampleArr = []).
+- If the array passed as a parameter to the function is empty, then we return the corresponding message.
+- We loop through the array passed as a parameter (we use a for loop).
+- In the body of the loop, we check whether the current element is a positive or negative number (if).
+- If the number is positive, then we add it to the previously created array using the push function (example exampleArr.push(currentPositiveNumber)).
+- After executing the loop, we check the array that was filled with only positive values.
+- If it is not empty, then we return this array.
+- If it is empty, return null.
 
-- a character (a string with a length of 1 character) — which will be added to the string if necessary
-
-- a boolean parameter (true or false) that determines whether to add characters to the left or right (by default, to the right)
-
-When writing the function, it is imperative to check the arguments that we passed, and if there are no arguments, then return a string with an error from the function (return 'some error'). The error message should be different depending on the condition under which the check failed.
-
-The result of the function call should be displayed in the console after the function completes.
-
-For example:
-
-- Calling padString('hello', 8, '*') will return the string hello***
-
-- And calling padString('hello', 6, '*', false) will return the string *hello
-
-- Calling padString('hello', 2) will return 'he' — if the number is smaller than the size of the input string, you need to truncate the string using the substr method
+P.S. You can write an additional function to validate the data (optional).
