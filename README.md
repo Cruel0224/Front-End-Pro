@@ -1,4 +1,7 @@
-1. Your function should work similarly to the array.shift method
-2. Your next function should work similarly to the array.reverse method
+You need to implement the functions indexOf, lastIndexOf, find, findIndex, includes, every and some, they work the same as the array methods of the same name.
 
-PS: Array methods are not allowed in the HW
+Execution algorithm:
+
+- Read the documentation for the method you are working on
+- Understand how the method works and what it returns
+- Write a function that completely imitates the method
