@@ -4,7 +4,7 @@ function demonstrations() {
     for (let i = 0; i < 1; i++) {
         console.log('До оголошення змінної:')
        // If you refer to var before the declaration — you will get undefined.
-        console.log(varVariable);
+        console.log(varVariable);    // undefined
         /*
         "Temporal Dead Zone" (TDZ),
          which threatens a ReferenceError if you refer to a modified one before its declaration.
