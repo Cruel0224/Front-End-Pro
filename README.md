@@ -1,4 +1,4 @@
-Given an array of objects. 
-Output an array of phone numbers of users whose balance is more than 2000 dollars. 
-And find the sum of all user balances
+Write a function findValuesByKey(obj, targetKey), like this:
 
+The object obj accepts more investments.
+Turns the array of all values ​​that correspond to the targetKey key (the key can appear at any level of contribution, and several times).
