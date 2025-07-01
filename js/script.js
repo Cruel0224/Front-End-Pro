@@ -2,101 +2,126 @@
 
 
 console.log('____APPLY____');
-// Function.prototype.customApply = function(app, arrApp) {
-//     app = app || globalThis;
-//     const unKey = Symbol();
-//     app[unKey] = this;
-//     const result = Array.isArray(arrApp)
-//     ? app[unKey](...arrApp) : app[unKey]();
-//     delete app[unKey];
-//     return result;
-// }
-//
-// function prototypeApp(greeting, punctuation) {
-//     return `${greeting} ${this.name}${punctuation}`
-// }
-//
-// const person = { name: 'Владислав' };
-//
-// console.log(prototypeApp.customApply(person, ['Mr.', '!']));
+console.log('Apply versin № 1');
+console.log('Adding to "Function.prototype" to make it work like a built-in apply');
 
+Function.prototype.customApply = function(app, arrApp) {
 
-function customApply(wind, app, arrApp) {
+    // if app is null or undefined, bind to the global object.
     app = app || globalThis;
+
+    // Create a unique key to avoid conflicts.
     const unKey = Symbol();
-    app[unKey] = wind;
+
+    // Bind the function this.
+    app[unKey] = this;
+
+    // Call the function with the passed arguments.
     const result = Array.isArray(arrApp)
     ? app[unKey](...arrApp) : app[unKey]();
+
+    // Remove the temporary function.
     delete app[unKey];
     return result;
 }
-function greet(greeting, punctuation) {
-    return `${greeting} ${this.name} ${punctuation}`
+// Function prototype call.
+function prototypeApply(accost, accent) {
+    return `${accost} ${this.name}${accent}`
 }
+const personalName = { name: 'Vladislav' };
+console.log(prototypeApply.customApply(personalName, ['\nMr.', '!']));
 
+
+console.log('\nApply versin № 2')
+console.log('Apply as a separate function')
+
+function customApply(wind, app, arrApp) {
+
+    // if app is null or undefined, bind to the global object.
+    app = app || globalThis;
+
+    // Create a unique key to avoid conflicts.
+    const unKey = Symbol();
+
+    // Bind wind to app
+    app[unKey] = wind;
+
+    // Call the function with the passed arguments.
+    const result = Array.isArray(arrApp)
+    ? app[unKey](...arrApp) : app[unKey]();
+
+    // Remove the temporary function.
+    delete app[unKey];
+    return result;
+}
+// Calling a function and outputting to the console.
+function greet(gr, pu) {
+    return `${gr} ${this.name} ${pu}`
+}
 const person = { name: 'Vladislav' };
-
-console.log(customApply(greet, person, ['Mr.', 'Welcome!']));
-
-
-
-
+console.log(customApply(greet, person, ['\nMr.', 'Welcome!']));
 
 
 console.log('____BIND____');
+console.log('Bind version № 1');
+console.log('Adding to "Function.prototype" to make it work like a built-in bind');
 
-// Function.prototype.myBind = function(context, ...bindArgs) {
-//     const originalFunc = this;
-//
-//     return function(...callArgs) {
-//         // Створюємо унікальний ключ, щоб не перезаписати щось у context
-//         const fnKey = Symbol('boundFn');
-//
-//         // Тимчасово додаємо функцію до об'єкта
-//         context[fnKey] = originalFunc;
-//
-//         // Викликаємо функцію з усіма аргументами
-//         const result = context[fnKey](...bindArgs, ...callArgs);
-//
-//         // Видаляємо тимчасову функцію
-//         delete context[fnKey];
-//
-//         return result;
-//     };
-// };
-// function greet1(greeting, punctuation) {
-//     return `${greeting}, ${this.name}${punctuation}`;
-// }
-//
-// const person1 = { name: 'Влад' };
-//
-// const boundGreet = greet1.myBind(person1, 'Привіт');
-// console.log(boundGreet('!')); // "Привіт, Влад!"
+Function.prototype.customBind = function(bin, ...binArr) {
+    const originalFunc = this;
+    return function(...callArr) {
 
-
-function myBind(originalFunc, context, ...bindArgs) {
-    return function(...callArgs) {
-        context = context || globalThis;
-        if (typeof context !== 'object' && typeof context !== 'function') {
-            context = Object(context);
-        }
+        // Create a unique key so as not to overwrite anything in bin.
         const fnKey = Symbol();
 
-        context[fnKey] = originalFunc;
+        // Temporarily add a function to the object.
+        bin[fnKey] = originalFunc;
 
-        const result = context[fnKey](...bindArgs, ...callArgs);
+        // Call the function with all arguments.
+        const result = bin[fnKey](...binArr, ...callArr);
 
-        delete context[fnKey];
+        // Remove the temporary function.
+        delete bin[fnKey];
+        return result;
+    };
+};
+// Function prototype call.
+function prototypeBind(greeting, punctuation) {
+    return `${greeting}, ${this.name}${punctuation}`;
+}
+const result = { name: 'Влад' };
+const bindGreet = prototypeBind.customBind(result, '\nПане');
+console.log(bindGreet('!'));
 
+
+console.log('\nBind version № 2');
+console.log('Bind as a separate function');
+
+function customBind(origFunc, cont, ...bindArr) {
+
+    // Return a new function that remembers cont and bindArr.
+    return function(...callArr) {
+
+        // if app is null or undefined, bind to the global object.
+        cont = cont || globalThis;
+
+        // Create a unique key so as not to overwrite anything in bin.
+        const fnKey = Symbol();
+
+        // Temporarily add a function to the object.
+        cont[fnKey] = origFunc;
+
+        // Call the function with all arguments.
+        const result = cont[fnKey](...bindArr, ...callArr);
+
+        // Remove the temporary function.
+        delete cont[fnKey];
         return result;
     };
 }
-function greet1(greeting, punctuation) {
-    return `${greeting} ${this.name} ${punctuation}`;
+// Calling a function and outputting to the console.
+function analog(gr, pu) {
+    return `${gr} ${this.definitions} ${pu}`;
 }
-
-const person1 = { name: 'Vladislav' };
-
-const boundGreet = myBind(greet1, person1, 'Mr.');
-
-console.log(boundGreet('Welcome!'));
+const result2 = { definitions: 'Вас' };
+const boundGreet = customBind(analog, result2, '\nРадий,');
+console.log(boundGreet('бачити!'));
