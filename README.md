@@ -1,4 +1,5 @@
-Given an array of objects. 
-Output an array of phone numbers of users whose balance is more than 2000 dollars. 
-And find the sum of all user balances
+- Write your own implementation of the apply function
 
+- Write your own implementation of the bind function
+
+- When implementing the bind function, the use of the call and apply methods is blocked
