@@ -1,10 +1,8 @@
 There is a button with the text "Change theme". When you click on it, the site should switch between light and dark themes (add/remove the dark-theme class to <body>).
 
-<button id="toggle-theme">Change theme</button>
-
-Find the button
-Hang the click event handler
-Add/remove the dark-theme class from <body>
-Write your own styles for the dark theme
+- Find the button
+- Hang the click event handler
+- Add/remove the dark-theme class from <body>
+- Write your own styles for the dark theme
 
 Use only addEventListener
