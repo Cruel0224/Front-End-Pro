@@ -1,8 +1,16 @@
-There is a button with the text "Change theme". When you click on it, the site should switch between light and dark themes (add/remove the dark-theme class to <body>).
+There are several product "cards" with the data-category attribute (for example, "fruit", "vegetable").
+There is a selector with filters. When the user selects a category, only those cards that match it are shown.
 
-- Find the button
-- Hang the click event handler
-- Add/remove the dark-theme class from <body>
-- Write your own styles for the dark theme
+<select id="filter">
+<option value="all">Усі</option>
+<option value="fruit">Фрукти</option>
+<option value="vegetable">Овочі</option>
+</select>
+<div class="card" data-category="fruit">🍎 Яблуко</div>
+<div class="card" data-category="vegetable">🥕 Морква</div>
+<div class="card" data-category="fruit">🍌 Банан</div>
 
-Use only addEventListener
+Expected actions:
+
+- React to a change in <select>
+- Iterate over .card and hide/show depending on the data-category
