@@ -11,6 +11,8 @@ In localStorage you will have 2 data items
 
 - Array of product objects
 - Field selectedProductID - where the id of the selected product for the edit product page will be stored.
+
+
 On the product creation page, there should be a check of inputs for correctness of input, when clicking on the create button, the data should first be written to localStorage and only then redirect the user to the product list page
 
 On the product list page, display a list of products, the newest ones at the top.
