@@ -1,0 +1,165 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+body{
+    background: gray;
+}
+
+.main_Attribute{
+    padding: 20px;
+    border: 200px;
+    text-align: justify;
+    margin: 0 auto;
+    width: 1080px;
+    height: 1920px;
+    background: silver;
+    box-sizing: border-box;
+}
+h2{
+    text-align: center;
+    width: 400px;
+    margin: 10px auto 20px auto;
+    color: darkblue;
+    font-size: 25px;
+    font-weight: 600;
+}
+h1{
+    background: sienna;
+    text-align: center;
+    margin: 0 auto 0 auto;
+    border: solid black;
+    font-weight: 600;
+    font-size: 40px;
+}
+.theEnd{
+    font-size: 20px;
+    color: darkred;
+    margin: 15px auto 0 auto;
+}
+.main_Attribute p{
+    line-height: 20px;
+    font-size: 17px;
+}
+.main_Attribute div>h3{
+    font-size: 20px;
+    font-weight: 600;
+}
+.other{
+    background: yellow;
+    padding: 5px;width: 450px;
+    text-align: justify;
+    height: 125px;
+    line-height: 30px;
+    border: 8px dashed black;
+    font-size: 17px;
+    color: darkcyan;
+}
+.levelOther{
+    background: yellow;
+    padding: 5px;
+    width: 450px;
+    text-align: justify;
+    height: 185px;
+    line-height: 30px;
+    border: 8px dashed black;
+    font-size: 17px;
+    margin: 5px auto 5px auto;
+    color: darkcyan;
+
+}
+.conter p, .conter div{
+    width: 800px;
+    line-height: 30px;
+    background: purple;
+    color: greenyellow;
+    border: 0;
+    text-align: left;
+    margin: 0;
+}
+.conter{
+    height: 300px;
+    width: 830px;
+    overflow: auto;
+    margin: 5px 0 5px 0;
+}
+#dontNever h2+div{
+    color: darkred;
+    font-size: 18px;
+}
+h3{
+    background: sienna;
+    text-align: center;
+    margin: 7px auto 7px auto;
+    border: solid black;
+    font-weight: 600;
+    font-size: 20px;
+}
+.conter h3{
+    color: black;
+    width: 500px;
+    line-height: 30px;
+    background: purple;
+    border-top: solid white;
+    text-align: left;
+    margin: 0;
+}
+.other h3, .levelOther h3{
+    border: 0;
+    background: yellow;
+    text-align: justify;
+    color: black;
+    margin: 0;
+}
+.liaf{
+    margin: 10px auto 10px auto;
+}
+p span{
+    font-weight: 600;
+}
+p+.other{
+    margin: 10px 0 10px 0;
+}
+.conter div{
+    color: red;
+    text-align: center;
+}
