@@ -1,35 +1,11 @@
-📌 Description:
-Implement an interface for managing categories (e.g. for a blog or store). Categories can be nested (have subcategories). Each category can be:
-Create (at the root level or as a subcategory)
-View (nested tree structure)
-Edit name
-Delete (along with all subcategories)
-Save state in localStorage
+Task
 
-🎯 Functional requirements:
+You need to make a constructor for the entity "Student".
 
-1. Read (building a tree)
+A student has a first name, last name, year of birth - these are properties. There is an array with grades, which is also a property. And there is an opportunity to get the student's age and his average score - these are methods.
 
-Show category tree (nested UL → LI)
+All Students also have an array of the same length, it has 25 elements, initially it is not filled, but for 25 elements. This is an array in which attendance is noted, every time we call the .present() method on the next empty place, true is written to the array, when we call .absent() - false is written. Provide any protection against the fact that there cannot be more than 25 records in the attendance array. The array is a property, present and absent are methods.
 
-When clicking on the name — open/close nested categories
+The last method: .summary(), checks the average grade and average attendance (number of Visits/number of Classes), and if the average grade is greater than 90 and the average attendance is greater than 0.9, then the summary method returns the string "Well done!", if one of these values is less, then - "Good, but you can do better", if both are lower - "Radish!".
 
-2. Create
-Button "➕ Add category" — adds a new root category
-
-Button "➕ Add subcategory" next to each category — adds a nested one
-
-3. Update
-Next to each category — button ✏️ to edit the name (input + confirm)
-
-4. Delete
-Next to each category — button 🗑 to delete (with confirmation), recursively deletes all nested ones
-
-🛠️ Technical limitations:
-
-Only pure JS + HTML + CSS
-You can use data-attributes* to identify nodes
-The tree is stored in the online memory (array of objects)
-
-📦 Additionally:
-Category filtering by name
+Don't forget to create 2-3 instances (of specific students) after you write this constructor and show the use of these methods.
