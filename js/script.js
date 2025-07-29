@@ -1,89 +1,104 @@
 'use strict';
 
+// Declare the Student class.
+class Student {
+    constructor(firstName, lastName, birthYear, grades = []) {
 
-console.log('----1----');
-// We create a function that calculates the arithmetic mean of only numeric elements
-const mixArray = [2, true, 'Hello', 6, 13, null, 20];
-function averageNumbers(arr) {
-    let sum = 0;
-    let count = 0;
-    for (let item of arr) {
-        if (typeof item === 'number' && !isNaN(item)) {
-            sum += item;
-            count++;
+        // Initialize basic properties.
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthYear = birthYear;
+        this.grades = grades;
+
+        // Array for attendance — 25 classes, initially all null (not filled).
+        this.attendance = new Array(25).fill(null);
+
+        // Internal counter to know where to write the next value.
+        this._attendanceIndex = 0;
+    }
+
+    // Method for calculating age.
+    getAge() {
+        const currentYear = new Date().getFullYear();
+        return currentYear - this.birthYear;
+    }
+
+    // Method for calculating the average score.
+    getAverageGrade() {
+        if (this.grades.length === 0) return 0;
+        const sum = this.grades.reduce((acc, grade) => acc + grade, 0);
+        return Math.round(sum / this.grades.length);
+    }
+
+    // Mark that the student was present at the class.
+    present() {
+        if (this._attendanceIndex >= 25) return; // Do not write more than 25 values.
+        this.attendance[this._attendanceIndex++] = true;
+    }
+
+    // Mark that the student was absent.
+    absent() {
+        if (this._attendanceIndex >= 25) return; // Do not write more than 25 values.
+        this.attendance[this._attendanceIndex++] = false;
+    }
+
+    /// Method that returns the student's final score.
+    summary() {
+        const avgGrade = this.getAverageGrade();
+        const marked = this.attendance.filter(a => a !== null);
+        const presentCount = marked.filter(a => a === true).length;
+        const attendanceRate = marked.length === 0 ? 0 : presentCount / marked.length;
+        if (avgGrade > 90 && attendanceRate > 0.9) {
+            return "Молодець!";
+        } else if (avgGrade > 90 || attendanceRate > 0.9) {
+            return "Добре, але можна краще";
+        } else {
+            return "Редиска!";
         }
     }
-    return count > 0 ? sum / count : 0;
 }
+// === Student 1: has high grades and good attendance ===
+const student1 = new Student("Марія", "Іваненко", 2005, [95, 91, 97]);
 
-// Output to the console
-console.log(averageNumbers(mixArray));
+// Mark 3 presences.
+student1.present();
+student1.present();
+student1.present();
 
-
-console.log('----2----');
-// A function that receives 3 arguments that will perform mathematical operations.
-function doMath(x, znak, y) {
-    switch (znak) {
-        case '+':
-            return x + y;
-        case '-':
-            return x - y;
-        case '*':
-            return x * y;
-        case '/':
-            return y !== 0 ? x / y : 'Ділення на 0 неможливо';
-        case '%':
-            return x % y;
-        case '^':
-            return x ** y;
-        default:
-            return 'Невідомий знак';
-    }
-}
-// we invite values from the user
-const x = +prompt("Введіть перше число:");
-const znak = prompt("Введіть знак операції (+, -, *, /, %, ^):");
-const y = +prompt("Введіть друге число:");
-
-// Output to the console
-console.log(doMath(x, znak, y));
+// Output the data.
+console.log("=== Студент 1 ===");
+console.log("Ім'я:", student1.firstName);
+console.log("Вік:", student1.getAge());
+console.log("Середній бал:", student1.getAverageGrade());
+console.log("Висновок:", student1.summary());
 
 
-console.log('----3----');
-// A function has been created to fill a two-dimensional array with user data.
-function createArray() {
-    const mainLength = +prompt("Введіть кількість основного масиву:");
-    const array = [];
-    for (let i = 0; i < mainLength; i++) {
-        const innerLength = +prompt(`Введіть довжину внутрішнього масиву № ${i + 1}:`);
-        const innerArray = [];
-        for (let j = 0; j < innerLength; j++) {
-            const value = prompt(`Введіть значення для елемента масиву № ${i + 1}, індекс масиву ${j}:`);
-            innerArray.push(value);
-        }
-        array.push(innerArray);
-    }
-    return array;
-}
-// Output to the console
-console.log(createArray());
+// === Student 2: has average grades but good attendance ===
+const student2 = new Student("Олег", "Петренко", 2004, [80, 78, 85]);
+
+// Mark 4 presences.
+student2.present();
+student2.present();
+student2.present();
+student2.present();
+
+console.log("\n=== Студент 2 ===");
+console.log("Ім'я:", student2.firstName);
+console.log("Вік:", student2.getAge());
+console.log("Середній бал:", student2.getAverageGrade());
+console.log("Висновок:", student2.summary());
 
 
-console.log('----4----');
-// A function that takes data filled in by the user
-// and removes the characters entered by the user in the second argument.
-function funcChars(string, remove) {
-    let result = '';
-    for (let i = 0; i < string.length; i++) {
-        if (!remove.includes(string[i])) {
-            result += string[i];
-        }
-    }
-    return result;
-}
-// User input value
-const input = prompt("Введіть рядок:");
-const chars = prompt("Введіть які символи треба видалити (без пробілів, якщо його не треба видаляти):");
+// === Student 3: has low grades and poor attendance ===
+const student3 = new Student("Ірина", "Сидорова", 2003, [60, 65, 70]);
 
-// Output to the console
-console.log(funcChars(input, chars));
+// 1 presence, 2 absence.
+student3.absent();
+student3.present();
+student3.absent();
+
+console.log("\n=== Студент 3 ===");
+console.log("Ім'я:", student3.firstName);
+console.log("Вік:", student3.getAge());
+console.log("Середній бал:", student3.getAverageGrade());
+console.log("Висновок:", student3.summary());
