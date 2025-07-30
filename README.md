@@ -14,7 +14,7 @@ Create createMetadataStorage(), which allows you to "attach" additional informat
 
 In JavaScript, it is not safe to add a field to a third-party object unless you created it. But with WeakMap, we can store additional information externally without touching the object itself.
 
-Task 4 — WeakSet: Tracking Already Processed Objects
+4. WeakSet: Tracking Already Processed Objects
 
 Create an ObjectTracker class that allows you to check whether a certain object has already been "marked" or processed. The class has the following methods:
 
