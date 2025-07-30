@@ -1,104 +1,118 @@
 'use strict';
 
-// Declare the Student class.
-class Student {
-    constructor(firstName, lastName, birthYear, grades = []) {
 
-        // Initialize basic properties.
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthYear = birthYear;
-        this.grades = grades;
+// 1. Map: Grouping products by complex keys (objects)
+function groupByCategory(items) {
 
-        // Array for attendance — 25 classes, initially all null (not filled).
-        this.attendance = new Array(25).fill(null);
+    // Create a Map where keys can be objects
+    const map = new Map();
+    for (const item of items) {
 
-        // Internal counter to know where to write the next value.
-        this._attendanceIndex = 0;
+        // Get the category object
+        const category = item.category;
+        if (!map.has(category)) {
+
+            // If the category does not exist yet, create an empty array
+            map.set(category, []);
+        }
+        // Add the product to the appropriate category
+        map.get(category).push(item);
     }
+    // Return the map
+    return map;
+}
 
-    // Method for calculating age.
-    getAge() {
-        const currentYear = new Date().getFullYear();
-        return currentYear - this.birthYear;
-    }
+// Example:
+const electronics = { name: 'Electronics' };
+const books = { name: 'Books' };
+const items = [
+    { name: 'Laptop', category: electronics },
+    { name: 'Phone', category: electronics },
+    { name: 'Book A', category: books },
+];
+const result = groupByCategory(items);
+console.log(result);
 
-    // Method for calculating the average score.
-    getAverageGrade() {
-        if (this.grades.length === 0) return 0;
-        const sum = this.grades.reduce((acc, grade) => acc + grade, 0);
-        return Math.round(sum / this.grades.length);
-    }
 
-    // Mark that the student was present at the class.
-    present() {
-        if (this._attendanceIndex >= 25) return; // Do not write more than 25 values.
-        this.attendance[this._attendanceIndex++] = true;
-    }
 
-    // Mark that the student was absent.
-    absent() {
-        if (this._attendanceIndex >= 25) return; // Do not write more than 25 values.
-        this.attendance[this._attendanceIndex++] = false;
-    }
+// 2. Set: Uniqueness of objects by reference
+function filterUniqueByReference(arr) {
 
-    /// Method that returns the student's final score.
-    summary() {
-        const avgGrade = this.getAverageGrade();
-        const marked = this.attendance.filter(a => a !== null);
-        const presentCount = marked.filter(a => a === true).length;
-        const attendanceRate = marked.length === 0 ? 0 : presentCount / marked.length;
-        if (avgGrade > 90 && attendanceRate > 0.9) {
-            return "Молодець!";
-        } else if (avgGrade > 90 || attendanceRate > 0.9) {
-            return "Добре, але можна краще";
-        } else {
-            return "Редиска!";
+    // Set stores only unique values (references)
+    const seen = new Set();
+    const result = [];
+    for (const obj of arr) {
+
+        // Check if this object already exists
+        if (!seen.has(obj)) {
+            seen.add(obj);
+            result.push(obj);
         }
     }
+    return result;
 }
-// === Student 1: has high grades and good attendance ===
-const student1 = new Student("Марія", "Іваненко", 2005, [95, 91, 97]);
 
-// Mark 3 presences.
-student1.present();
-student1.present();
-student1.present();
-
-// Output the data.
-console.log("=== Студент 1 ===");
-console.log("Ім'я:", student1.firstName);
-console.log("Вік:", student1.getAge());
-console.log("Середній бал:", student1.getAverageGrade());
-console.log("Висновок:", student1.summary());
+// Example:
+const obj1 = { name: "a" };
+const obj2 = { name: "a" };
+const input = [obj1, obj1, obj2, obj2, obj1];
+const unique = filterUniqueByReference(input);
+console.log(unique);
 
 
-// === Student 2: has average grades but good attendance ===
-const student2 = new Student("Олег", "Петренко", 2004, [80, 78, 85]);
 
-// Mark 4 presences.
-student2.present();
-student2.present();
-student2.present();
-student2.present();
+// 3. WeakMap: Metadata binding without changing the object
+function createMetadataStorage() {
 
-console.log("\n=== Студент 2 ===");
-console.log("Ім'я:", student2.firstName);
-console.log("Вік:", student2.getAge());
-console.log("Середній бал:", student2.getAverageGrade());
-console.log("Висновок:", student2.summary());
+    // WeakMap allows you to "bind" data to an object
+    const metaMap = new WeakMap();
+    return {
+        setMetadata(obj, metadata) {
+
+            // Write metadata to the object
+            metaMap.set(obj, metadata);
+        },
+        getMetadata(obj) {
+            return metaMap.get(obj);
+        },
+        hasMetadata(obj) {
+            return metaMap.has(obj);
+        }
+    };
+}
+
+// Example:
+const storage = createMetadataStorage();
+const user1 = { name: "Анна" };
+const user2 = { name: "Олег" };
+storage.setMetadata(user1, { role: "admin" });
+storage.setMetadata(user2, { role: "user" });
+console.log(storage.getMetadata(user1));
+console.log(storage.hasMetadata(user2));
 
 
-// === Student 3: has low grades and poor attendance ===
-const student3 = new Student("Ірина", "Сидорова", 2003, [60, 65, 70]);
 
-// 1 presence, 2 absence.
-student3.absent();
-student3.present();
-student3.absent();
+// 4. WeakSet: Tracking whether an object has already been processed
+class ObjectTracker {
+    constructor() {
 
-console.log("\n=== Студент 3 ===");
-console.log("Ім'я:", student3.firstName);
-console.log("Вік:", student3.getAge());
-console.log("Середній бал:", student3.getAverageGrade());
-console.log("Висновок:", student3.summary());
+        // WeakSet only stores objects (references)
+        this.processed = new WeakSet();
+    };
+    mark(obj) {
+        // Mark the object as processed
+        this.processed.add(obj);
+    };
+    wasProcessed(obj) {
+
+        // Check if the object has already been processed
+        return this.processed.has(obj);
+    };
+}
+
+// Example:
+const tracker = new ObjectTracker();
+const obj = { name: "A" };
+console.log(tracker.wasProcessed(obj));
+tracker.mark(obj);
+console.log(tracker.wasProcessed(obj));
