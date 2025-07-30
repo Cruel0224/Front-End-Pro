@@ -1,11 +1,26 @@
-We write using the new class syntax
+<strong>Data structures</strong>
 
-You need to make a constructor for the entity "Student".
+1. Map: Object statistics by complex keys
 
-A student has a first name, last name, year of birth - these are properties. There is an array with grades, which is also a property. And there is an opportunity to get the student's age and his average grade - these are methods.
+Implement the groupByCategory(items) function, which takes an array of items, where each item has a complex object as a category, and groups the items by these categories.
 
-All Students also have an array of the same length, it has 25 elements, initially it is not filled, but for 25 elements. This is an array in which attendance is noted, every time we call the .present() method on the next empty place, true is written to the array, when we call .absent() - false is written. Provide any protection against the fact that there cannot be more than 25 records in the attendance array. The array is a property, present and absent are methods.
+2. Set: Detecting unique items without reprocessing
 
-The last method: .summary(), checks the average grade and average attendance (number of Visits/number of Classes), and if the average grade is greater than 90 and the average attendance is greater than 0.9, then the summary method returns the string "Well done!", if one of these values is less, then - "Good, but you can do better", if both are lower - "Radish!".
+Create a filterUniqueByReference(arr) function, which returns an array of only unique items by reference.
 
-Don't forget to create 2-3 instances (of specific students) after you write this constructor and show the use of these methods.
+3. WeakMap: Binding metadata to objects without memory leaks
+
+Create createMetadataStorage(), which allows you to "attach" additional information to any object without changing the object itself. These objects can disappear from memory - and the metadata will automatically disappear too.
+
+In JavaScript, it is not safe to add a field to a third-party object unless you created it. But with WeakMap, we can store additional information externally without touching the object itself.
+
+Task 4 — WeakSet: Tracking Already Processed Objects
+
+Create an ObjectTracker class that allows you to check whether a certain object has already been "marked" or processed. The class has the following methods:
+
+mark(obj) — mark the object as processed
+
+wasProcessed(obj) → true | false — whether the object has already been processed
+
+Context:
+In many scenarios (e.g., graph traversal, DOM tree, deep validation), you need to know whether this object has already been processed so that you don't have to repeat the action.
