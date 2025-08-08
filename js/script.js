@@ -1,51 +1,87 @@
 'use strict';
 
-// Declare a class for tracking transition history
-class HistoryTracker {
+// The Navigation class is responsible for menu operation,
+// highlighting the active item, and changing the URL
+class Navigation {
     constructor() {
-        // Array to store all visited URLs in the current session
-        this.visitedUrls = [];
 
-        // Listen to the popstate event — it fires when going "back" or "forward"
-        window.addEventListener('popstate', () => {
+        // Store all menu links in a variable
+        this.links = document.querySelectorAll('.menu a');
 
-/*
-Additionally, you can use the method to remove pages
-from the array when pressing Back to show an array of current pages
-this.visitedUrls.pop();
-*/
-            console.log('🔙 Popstate event triggered');
-            // show an array of all visited URLs
-            console.log('📜 Історія переходів:', this.visitedUrls);
+        // Save the block where we will display the content
+        this.content = document.getElementById('content');
+
+        // Run initial initialization
+        this.init();
+    };
+
+    // Method for initial setup
+    init() {
+        this.updateActive(window.location.pathname);
+        this.renderContent(window.location.pathname);
+
+        // Add click handlers to all menu items
+        this.links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Get the path from the data-path attribute
+                const path = link.getAttribute('data-path');
+
+                // Change the URL in the browser without reloading the page
+                history.pushState({ path }, '', path);
+
+                // Update the highlight of the active menu item
+                this.updateActive(path);
+                this.renderContent(path);
+            });
+        });
+
+        // Listen to the popstate event — triggered when the "back" or
+        // "forward" buttons are pressed in the browser
+        window.addEventListener('popstate', (e) => {
+
+            // Get the path from state, or if it is not there — from location.pathname
+            const path = e.state?.path || window.location.pathname;
+            this.updateActive(path);
+            this.renderContent(path);
         });
     };
 
-    // Method for adding a new entry to history
-    push(url) {
-        history.pushState({ url }, null, url);
+    // Method for highlighting the active menu item
+    updateActive(pathname) {
+        this.links.forEach(link => {
 
-        // Store the URL in our local array
-        this.visitedUrls.push(url);
-        console.log(`✅ Додано ${url} до історії`);
+            // If the link path matches the current one, add the active class
+            if (link.getAttribute('data-path') === pathname) {
+                link.classList.add('active');
+            } else {
+
+                // Otherwise, remove the highlight
+                link.classList.remove('active');
+            }
+        });
     };
 
-    // Method for going to the previous page
-    back() {
-        history.back();
-        console.log('⬅️ Повернення на попередню сторінку');
+    // Create new scratch file from selection
+    renderContent(pathname) {
+        switch (pathname) {
+            case '/home':
+                this.content.textContent = 'Це головна сторінка.';
+                break;
+            case '/about':
+                this.content.textContent = 'Це сторінка про нас.';
+                break;
+            case '/contact':
+                this.content.textContent = 'Це сторінка контактів.';
+                break;
+            default:
+                this.content.textContent = 'Сторінку не знайдено.';
+        }
     };
 }
 
-// Create an instance of the HistoryTracker class
-const tracker = new HistoryTracker();
-
-// Add a handler for the buttons
-document.getElementById('goPage1').addEventListener('click', () => {
-    tracker.push('/Сторінка 1');
-});
-document.getElementById('goPage2').addEventListener('click', () => {
-    tracker.push('/Сторінка 2');
-});
-document.getElementById('goBack').addEventListener('click', () => {
-    tracker.back();
+// Run Navigation only after the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new Navigation();
 });
