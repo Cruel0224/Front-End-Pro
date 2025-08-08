@@ -1,18 +1,13 @@
-DZ 44. Class for working with transition history (HistoryTracker)
+DZ 45. Navigation menu with active page highlighting
 
 
-Goal: Practice the History API and storing routes.
+<strong>Goal:</strong> Combine location, DOM, classes, and history.
 
-Requirements:
-1. Create a HistoryTracker class that:
- 
-- Stores a list of visited URLs in an array.
-  
-2. Has methods:
-  
-- push(url) — adds an entry via pushState and stores it in history.
-- back() — goes to the previous page via history.back().
-  
-3. Optional:
+<strong>Requirements:</strong>
+1. Implement a navigation menu (HTML) with 3 links: /home, /about, /contact.
    
-- Use the popstate event to log the history of navigation.
+2. Create a Navigation class that:
+   
+- Tracks window.location.pathname.
+- Adds the CSS class "active" to the corresponding menu item.
+- Responds to popstate and manually changes the URL on click (via pushState).
