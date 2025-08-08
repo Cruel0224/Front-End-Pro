@@ -1,68 +1,22 @@
-/* Базові налаштування */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #f0f4ff, #dfe9ff);
-    color: #333;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
 }
 
-/* Контейнер */
-.container {
-    text-align: center;
-    background: #fff;
-    padding: 30px 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+.menu a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
-/* Заголовок */
-h1 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #444;
+.menu a.active {
+    background-color: #007bff;
+    color: white;
 }
 
-/* Кнопки */
-.buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    background-color: #4a90e2;
-    color: #fff;
-}
-
-button:hover {
-    background-color: #357ab7;
-    transform: translateY(-2px);
-}
-
-button:active {
-    transform: translateY(0);
-}
-
-/* Окремий стиль для кнопки Назад */
-button.back {
-    background-color: #ff6b6b;
-}
-
-button.back:hover {
-    background-color: #d94a4a;
+#content {
+    margin-top: 30px;
+    font-size: 18px;
 }
