@@ -1,13 +1,17 @@
-DZ 45. Navigation menu with active page highlighting
+DZ 46. URL parser through class
 
 
-<strong>Goal:</strong> Combine location, DOM, classes, and history.
+<strong>Goal:</strong> to gain a deeper understanding of window.location properties and parse URLs into parts.
 
 <strong>Requirements:</strong>
-1. Implement a navigation menu (HTML) with 3 links: /home, /about, /contact.
+1. Create a URLParser class with a constructor that accepts a full URL.
+
+2. Add getters:
    
-2. Create a Navigation class that:
-   
-- Tracks window.location.pathname.
-- Adds the CSS class "active" to the corresponding menu item.
-- Responds to popstate and manually changes the URL on click (via pushState).
+- protocol → returns http: or https:
+- hostname → returns the domain
+- path → returns the path (/products/item)
+- queryParams → returns an object with query parameters ({ search: "book", page: "2" })
+  
+
+<strong>!!! USE of window.location or location IS PROHIBITED !!!</strong>
