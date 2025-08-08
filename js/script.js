@@ -1,87 +1,94 @@
 'use strict';
 
-// The Navigation class is responsible for menu operation,
-// highlighting the active item, and changing the URL
-class Navigation {
-    constructor() {
+// Class for parsing URLs into parts
+class URLParser {
+    constructor(url) {
 
-        // Store all menu links in a variable
-        this.links = document.querySelectorAll('.menu a');
-
-        // Save the block where we will display the content
-        this.content = document.getElementById('content');
-
-        // Run initial initialization
-        this.init();
+        // Create a standard URL class object that itself splits the string into parts
+        this.url = new URL(url);
     };
 
-    // Method for initial setup
-    init() {
-        this.updateActive(window.location.pathname);
-        this.renderContent(window.location.pathname);
-
-        // Add click handlers to all menu items
-        this.links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                // Get the path from the data-path attribute
-                const path = link.getAttribute('data-path');
-
-                // Change the URL in the browser without reloading the page
-                history.pushState({ path }, '', path);
-
-                // Update the highlight of the active menu item
-                this.updateActive(path);
-                this.renderContent(path);
-            });
-        });
-
-        // Listen to the popstate event — triggered when the "back" or
-        // "forward" buttons are pressed in the browser
-        window.addEventListener('popstate', (e) => {
-
-            // Get the path from state, or if it is not there — from location.pathname
-            const path = e.state?.path || window.location.pathname;
-            this.updateActive(path);
-            this.renderContent(path);
-        });
+    // Returns the protocol (http: or https:)
+    get protocol() {
+        return this.url.protocol;
     };
 
-    // Method for highlighting the active menu item
-    updateActive(pathname) {
-        this.links.forEach(link => {
-
-            // If the link path matches the current one, add the active class
-            if (link.getAttribute('data-path') === pathname) {
-                link.classList.add('active');
-            } else {
-
-                // Otherwise, remove the highlight
-                link.classList.remove('active');
-            }
-        });
+    // Returns the hostname (domain)
+    get hostname() {
+        return this.url.hostname;
     };
 
-    // Create new scratch file from selection
-    renderContent(pathname) {
-        switch (pathname) {
-            case '/home':
-                this.content.textContent = 'Це головна сторінка.';
-                break;
-            case '/about':
-                this.content.textContent = 'Це сторінка про нас.';
-                break;
-            case '/contact':
-                this.content.textContent = 'Це сторінка контактів.';
-                break;
-            default:
-                this.content.textContent = 'Сторінку не знайдено.';
+    // Returns the path (e.g. /products/item)
+    get path() {
+        return this.url.pathname;
+    };
+
+    // Returns an object with all query parameters (search, page, etc.)
+    get queryParams() {
+        const params = {};
+
+        // this.url.searchParams — a special object for working with parameters
+        for (const [key, value] of this.url.searchParams.entries()) {
+            params[key] = value;
         }
+        return params;
     };
 }
 
-// Run Navigation only after the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new Navigation();
+// Example of use in the console according to the homework example
+console.log('====== URLParser ======');
+const parser = new URLParser("https://example.com/products/item?search=book&page=2");
+console.log(parser.protocol);     // "https:"
+console.log(parser.hostname);     // "example.com"
+console.log(parser.path);         // "/products/item"
+console.log(parser.queryParams);  // { search: "book", page: "2" }
+
+
+
+/*
+I modified the page a little on my own and first made an example of a DZ in the console
+and made a small page where you can enter any URL, click a button and see all its parts.
+*/
+
+
+// Event handler for the "Parse URL" button
+document.getElementById('parseBtn').addEventListener('click', () => {
+    const urlValue = document.getElementById('urlInput').value.trim();
+    const output = document.getElementById('output');
+
+    // Check: if the field is empty
+    if (!urlValue) {
+        output.innerHTML = "<span style='color:red;'>Будь ласка, введіть URL</span>";
+        return;
+    }
+
+    try {
+        // Create a parser object
+        const parser = new URLParser(urlValue);
+
+        // Beautiful display of queryParams as a list
+        let paramsHTML;
+        const params = parser.queryParams;
+        if (Object.keys(params).length > 0) {
+            paramsHTML = "<ul>";
+            for (const key in params) {
+                paramsHTML += `<li><strong>${key}:</strong> ${params[key]}</li>`;
+            }
+            paramsHTML += "</ul>";
+        } else {
+            paramsHTML = "немає параметрів";
+        }
+
+        // Generate HTML with the results
+        output.innerHTML = `
+      <strong>Protocol:</strong> ${parser.protocol}<br>
+      <strong>Hostname:</strong> ${parser.hostname}<br>
+      <strong>Path:</strong> ${parser.path}<br>
+      <strong>Query Params:</strong> ${paramsHTML}
+    `;
+    } catch (e) {
+
+        // If the URL is invalid or unrecognized
+        output.innerHTML = "<span style='color:red;'>Некоректний URL</span>";
+    }
 });
