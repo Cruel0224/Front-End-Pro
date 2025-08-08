@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="uk">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Навігаційне меню</title>
+        <meta charset="UTF-8">
+        <title>Парсер URL</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <nav class="menu">
-            <a href="/home" data-path="/home">Головна</a>
-            <a href="/about" data-path="/about">Про нас</a>
-            <a href="/contact" data-path="/contact">Контакти</a>
-        </nav>
-
-        <div id="content">Ласкаво просимо!</div>
-
+        <div class="container">
+            <h1>Парсер URL</h1>
+            <label>
+                <input type="text" id="urlInput" placeholder="Введіть повний URL">
+            </label>
+            <button id="parseBtn">Розібрати URL</button>
+            <div class="output" id="output"></div>
+        </div>
         <script src="js/script.js"></script>
     </body>
 </html>
