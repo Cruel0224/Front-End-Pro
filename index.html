@@ -2,17 +2,24 @@
 <html lang="uk">
     <head>
         <meta charset="UTF-8">
-        <title>Парсер URL</title>
+        <title>To-Do List</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <div class="container">
-            <h1>Парсер URL</h1>
-            <label>
-                <input type="text" id="urlInput" placeholder="Введіть повний URL">
-            </label>
-            <button id="parseBtn">Розібрати URL</button>
-            <div class="output" id="output"></div>
+        <h2>To-Do List</h2>
+        <label>
+            <input type="text" id="taskInput" placeholder="Нове завдання...">
+        </label>
+        <button id="addBtn">Add</button>
+        <ul id="taskList"></ul>
+        <p>
+            Виконані: <span id="doneCount">0</span> |
+            Невиконані: <span id="activeCount">0</span>
+        </p>
+        <div class="filters">
+            <button data-filter="all">All</button>
+            <button data-filter="active">Active</button>
+            <button data-filter="completed">Completed</button>
         </div>
         <script src="js/script.js"></script>
     </body>
