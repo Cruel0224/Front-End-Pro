@@ -1,94 +1,110 @@
 'use strict';
 
-// Class for parsing URLs into parts
-class URLParser {
-    constructor(url) {
+// Get references to HTML elements
+const taskInput = document.getElementById('taskInput');     // input field
+const addBtn = document.getElementById('addBtn');           // "Add" button
+const taskList = document.getElementById('taskList');       // <ul> for tasks
+const doneCount = document.getElementById('doneCount');     // counter for completed
+const activeCount = document.getElementById('activeCount'); // counter for active
+const filters = document.querySelector('.filters');              // filter buttons container
 
-        // Create a standard URL class object that itself splits the string into parts
-        this.url = new URL(url);
-    };
+// Current filter ("all", "active", "completed")
+let filter = "all";
 
-    // Returns the protocol (http: or https:)
-    get protocol() {
-        return this.url.protocol;
-    };
+// Array to store tasks
+// Each task object: { id, text, completed, element }
+let tasks = [];
 
-    // Returns the hostname (domain)
-    get hostname() {
-        return this.url.hostname;
-    };
-
-    // Returns the path (e.g. /products/item)
-    get path() {
-        return this.url.pathname;
-    };
-
-    // Returns an object with all query parameters (search, page, etc.)
-    get queryParams() {
-        const params = {};
-
-        // this.url.searchParams — a special object for working with parameters
-        for (const [key, value] of this.url.searchParams.entries()) {
-            params[key] = value;
-        }
-        return params;
-    };
+// ---- COUNTERS ----
+function updateCounters() {
+    const completed = tasks.filter(t => t.completed).length;
+    const active = tasks.length - completed;
+    doneCount.textContent = completed;
+    activeCount.textContent = active;
 }
 
-// Example of use in the console according to the homework example
-console.log('====== URLParser ======');
-const parser = new URLParser("https://example.com/products/item?search=book&page=2");
-console.log(parser.protocol);     // "https:"
-console.log(parser.hostname);     // "example.com"
-console.log(parser.path);         // "/products/item"
-console.log(parser.queryParams);  // { search: "book", page: "2" }
+// ---- CREATE <li> ----
+function createTaskElement(task) {
+    const li = document.createElement('li');
+    if (task.completed) li.classList.add('completed');
 
+    // Task text
+    const span = document.createElement('span');
+    span.textContent = task.text;
 
+    // "Done" button – toggles task state
+    const doneBtn = document.createElement('button');
+    doneBtn.textContent = "Done";
+    doneBtn.addEventListener('click', () => {
+        task.completed = !task.completed;
+        li.classList.toggle('completed', task.completed);
+        updateCounters();
+        applyFilter();
+    });
 
-/*
-I modified the page a little on my own and first made an example of a DZ in the console
-and made a small page where you can enter any URL, click a button and see all its parts.
-*/
+    // "Delete" button – removes task
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener('click', () => {
+        tasks = tasks.filter(t => t.id !== task.id);
+        li.remove();
+        updateCounters();
+    });
 
+    // Append elements to <li>
+    li.appendChild(span);
+    li.appendChild(doneBtn);
+    li.appendChild(deleteBtn);
+    task.element = li;      // save reference to DOM element
+    return li;
+}
 
-// Event handler for the "Parse URL" button
-document.getElementById('parseBtn').addEventListener('click', () => {
-    const urlValue = document.getElementById('urlInput').value.trim();
-    const output = document.getElementById('output');
+// ---- ADD NEW TASK ----
+function addTask(text) {
+    const task = {
+        id: Date.now(),   // unique id (timestamp)
+        text,             // task text
+        completed: false, // initially not completed
+        element: null     // will store DOM reference later
+    };
+    tasks.push(task);
+    const li = createTaskElement(task);
+    taskList.appendChild(li);
+    updateCounters();
+    applyFilter();
+}
 
-    // Check: if the field is empty
-    if (!urlValue) {
-        output.innerHTML = "<span style='color:red;'>Будь ласка, введіть URL</span>";
-        return;
-    }
-
-    try {
-        // Create a parser object
-        const parser = new URLParser(urlValue);
-
-        // Beautiful display of queryParams as a list
-        let paramsHTML;
-        const params = parser.queryParams;
-        if (Object.keys(params).length > 0) {
-            paramsHTML = "<ul>";
-            for (const key in params) {
-                paramsHTML += `<li><strong>${key}:</strong> ${params[key]}</li>`;
-            }
-            paramsHTML += "</ul>";
-        } else {
-            paramsHTML = "немає параметрів";
+// ---- FILTERING ----
+function applyFilter() {
+    tasks.forEach(task => {
+        switch (filter) {
+            case "all":
+                task.element.style.display = "flex";
+                break;
+            case "active":
+                task.element.style.display = task.completed ? "none" : "flex";
+                break;
+            case "completed":
+                task.element.style.display = task.completed ? "flex" : "none";
+                break;
         }
+    });
+}
 
-        // Generate HTML with the results
-        output.innerHTML = `
-      <strong>Protocol:</strong> ${parser.protocol}<br>
-      <strong>Hostname:</strong> ${parser.hostname}<br>
-      <strong>Path:</strong> ${parser.path}<br>
-      <strong>Query Params:</strong> ${paramsHTML}
-    `;
-    } catch (e) {
+// ---- EVENTS ----
+// "Add" button click
+addBtn.addEventListener('click', () => {
+    const text = taskInput.value.trim();    // get text from input
+    if (text) {
+        addTask(text);          // add new task
+        taskInput.value = "";        // clear input field
+    }
+});
 
-        // If the URL is invalid or unrecognized
-        output.innerHTML = "<span style='color:red;'>Некоректний URL</span>";
+// Filter buttons click
+filters.addEventListener('click', (e) => {
+    if (e.target.tagName === "BUTTON") {      // check if clicked element is button
+        filter = e.target.dataset.filter;       // get value from data-filter
+        applyFilter();                          // apply filter
     }
 });
