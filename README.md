@@ -1,17 +1,23 @@
-DZ 46. URL parser through class
+DZ 47. interactive task list
 
+Make an interactive to-do list with the following conditions:
 
-<strong>Goal:</strong> to gain a deeper understanding of window.location properties and parse URLs into parts.
+There is an input field and an "Add" button on the page.
 
-<strong>Requirements:</strong>
-1. Create a URLParser class with a constructor that accepts a full URL.
+Each new list item is rendered in the DOM as a <li> with text and buttons:
 
-2. Add getters:
-   
-- protocol → returns http: or https:
-- hostname → returns the domain
-- path → returns the path (/products/item)
-- queryParams → returns an object with query parameters ({ search: "book", page: "2" })
-  
+"Done" — changes the state of the item (strikes through the text + adds the "completed" class).
 
-<strong>!!! USE of window.location or location IS PROHIBITED !!!</strong>
+"Delete" — removes the item from the list.
+
+Add a counter that shows the number of completed and uncompleted tasks.
+
+Implement task filtering:
+
+"All" — shows all
+
+"Active" — only uncompleted ones
+
+"Completed" — only completed ones
+
+Minimize rerenders: when changing the state of one task, the entire <ul> should not be rerendered, but only a specific <li>.
