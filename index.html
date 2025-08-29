@@ -2,25 +2,18 @@
 <html lang="uk">
     <head>
         <meta charset="UTF-8">
-        <title>To-Do List</title>
+        <title>Event Bus Demo</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <h2>To-Do List</h2>
-        <label>
-            <input type="text" id="taskInput" placeholder="Нове завдання...">
-        </label>
-        <button id="addBtn">Add</button>
-        <ul id="taskList"></ul>
-        <p>
-            Виконані: <span id="doneCount">0</span> |
-            Невиконані: <span id="activeCount">0</span>
-        </p>
-        <div class="filters">
-            <button data-filter="all">All</button>
-            <button data-filter="active">Active</button>
-            <button data-filter="completed">Completed</button>
-        </div>
+        <h2>Event Bus Demo</h2>
+        <button id="emitTick">Emit Tick</button>
+        <button id="emitNewsA">Emit News A</button>
+        <button id="emitNewsB">Emit News B</button>
+        <button id="offNews">Unsubscribe News</button>
+        <button id="emitEv">Emit Ev</button>
+        <div id="log"></div>
+
         <script src="js/script.js"></script>
     </body>
 </html>
