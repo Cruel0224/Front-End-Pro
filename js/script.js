@@ -1,110 +1,111 @@
 'use strict';
 
-// Get references to HTML elements
-const taskInput = document.getElementById('taskInput');     // input field
-const addBtn = document.getElementById('addBtn');           // "Add" button
-const taskList = document.getElementById('taskList');       // <ul> for tasks
-const doneCount = document.getElementById('doneCount');     // counter for completed
-const activeCount = document.getElementById('activeCount'); // counter for active
-const filters = document.querySelector('.filters');              // filter buttons container
+// Event Bus
+function createBus() {
+    const topics = Object.create(null);
 
-// Current filter ("all", "active", "completed")
-let filter = "all";
+    function on(topic, handler) {
 
-// Array to store tasks
-// Each task object: { id, text, completed, element }
-let tasks = [];
+        // 1) Initialize the subscriber container for the topic
+        if (!topics[topic]) topics[topic] = new Set();
 
-// ---- COUNTERS ----
-function updateCounters() {
-    const completed = tasks.filter(t => t.completed).length;
-    const active = tasks.length - completed;
-    doneCount.textContent = completed;
-    activeCount.textContent = active;
-}
+        // 2) Add handler
+        topics[topic].add(handler);
 
-// ---- CREATE <li> ----
-function createTaskElement(task) {
-    const li = document.createElement('li');
-    if (task.completed) li.classList.add('completed');
+        // 3) Return the unsubscribe function
+        return function unsubscribe() {
+            off(topic, handler);
+        };
+    }
 
-    // Task text
-    const span = document.createElement('span');
-    span.textContent = task.text;
+    function off(topic, handler) {
 
-    // "Done" button – toggles task state
-    const doneBtn = document.createElement('button');
-    doneBtn.textContent = "Done";
-    doneBtn.addEventListener('click', () => {
-        task.completed = !task.completed;
-        li.classList.toggle('completed', task.completed);
-        updateCounters();
-        applyFilter();
-    });
+        // 1) Remove handler from topic
+        const handlers = topics[topic];
+        if (!handlers) return;
+        handlers.delete(handler);
 
-    // "Delete" button – removes task
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener('click', () => {
-        tasks = tasks.filter(t => t.id !== task.id);
-        li.remove();
-        updateCounters();
-    });
-
-    // Append elements to <li>
-    li.appendChild(span);
-    li.appendChild(doneBtn);
-    li.appendChild(deleteBtn);
-    task.element = li;      // save reference to DOM element
-    return li;
-}
-
-// ---- ADD NEW TASK ----
-function addTask(text) {
-    const task = {
-        id: Date.now(),   // unique id (timestamp)
-        text,             // task text
-        completed: false, // initially not completed
-        element: null     // will store DOM reference later
-    };
-    tasks.push(task);
-    const li = createTaskElement(task);
-    taskList.appendChild(li);
-    updateCounters();
-    applyFilter();
-}
-
-// ---- FILTERING ----
-function applyFilter() {
-    tasks.forEach(task => {
-        switch (filter) {
-            case "all":
-                task.element.style.display = "flex";
-                break;
-            case "active":
-                task.element.style.display = task.completed ? "none" : "flex";
-                break;
-            case "completed":
-                task.element.style.display = task.completed ? "flex" : "none";
-                break;
+        // 2) Delete the topic if there are no subscribers left
+        if (handlers.size === 0) {
+            delete topics[topic];
         }
-    });
+    }
+
+    function emit(topic, payload, delay = 0) {
+        const handlers = topics[topic];
+        if (!handlers) return;
+
+        // copy subscribers so that the iteration doesn't break during off()
+        const toCall = Array.from(handlers);
+
+        // Use setTimeout with delay
+        setTimeout(() => {
+
+            // Inside the timer, call all topic subscribers with payload
+            toCall.forEach(handler => {
+                try {
+                    handler(payload);
+                } catch (e) {
+                    console.error(`Error in handler for topic "${topic}":`, e);
+                }
+            });
+        }, delay);
+    }
+
+    return { on, off, emit };
 }
 
-// ---- EVENTS ----
-// "Add" button click
-addBtn.addEventListener('click', () => {
-    const text = taskInput.value.trim();    // get text from input
-    if (text) {
-        addTask(text);          // add new task
-        taskInput.value = "";        // clear input field
-    }
-});
+// === TEST HARNESS ===
 
-// Filter buttons click
-filters.addEventListener('click', (e) => {
-    if (e.target.tagName === "BUTTON") {      // check if clicked element is button
-        filter = e.target.dataset.filter;       // get value from data-filter
-        applyFilter();                          // apply filter
-    }
+// 1) Basic asynchrony
+
+const bus = createBus();
+bus.on('tick', (x) => console.log('tick:', x));
+bus.emit('tick', { step: 1 }, 0);
+console.log('after schedule');
+
+// Expectation: "after schedule" will appear in the console before "tick: { step: 1 }"
+
+
+// 2) Chain of events
+
+/*
+const bus = createBus();
+bus.on('tick', (x) => {
+  console.log('handler step:', x.step);
+  if (x.step === 1) {
+    bus.emit('tick', { step: 2 }, 0);
+  }
 });
+bus.emit('tick', { step: 1 }, 0);
+ */
+
+// Waiting: first "handler step: 1", then "handler step: 2"
+// Reason: second emit gets into next event loop due to setTimeout
+
+
+// 3) Unsubscribing between events
+/*
+const bus = createBus();
+const off = bus.on('news', (x) => {
+  console.log('news:', x);
+  off();
+});
+bus.emit('news', 'A', 0);
+bus.emit('news', 'B', 0);
+ */
+
+// Expectation: 'B' will not reach the handler
+
+
+// 4) Multiple subscribers
+
+/*
+const bus = createBus();
+bus.on('ev', (v) => console.log('h1', v));
+bus.on('ev', (v) => console.log('h2', v));
+bus.on('ev', (v) => console.log('h3', v));
+bus.emit('ev', 42, 0);
+ */
+
+// Waiting: all three handlers are called
