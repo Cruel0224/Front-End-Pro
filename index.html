@@ -2,18 +2,31 @@
 <html lang="uk">
     <head>
         <meta charset="UTF-8">
-        <title>Event Bus Demo</title>
+        <title>Fake api</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <h2>Event Bus Demo</h2>
-        <button id="emitTick">Emit Tick</button>
-        <button id="emitNewsA">Emit News A</button>
-        <button id="emitNewsB">Emit News B</button>
-        <button id="offNews">Unsubscribe News</button>
-        <button id="emitEv">Emit Ev</button>
-        <div id="log"></div>
-
+        <h2>Fake api</h2>
+        <div id="app">
+            <div class="log">Ви маєте функцію fetchUserData(userId),
+                яка повертає проміс із даними користувача (емуляція запиту до API).<br>
+                Потрібно написати функцію getUsersData(userIds), яка:<br>
+                1. Приймає масив userIds.<br>
+                2. Повертає проміс, що резолвиться в масив об’єктів користувачів.<br>
+                3. Якщо хоча б один запит завершується з помилкою — у результаті має повернутись масив успішних відповідей і масив помилок.
+            </div>
+            <div class="log"><strong>Приклад виклику:</strong><br>
+                const userIds = [1, 2, 3, 4, 5];<br>
+                getUsersData(userIds).then((result) => {<br>
+                console.log("✅ Success:", result.success);<br>
+                console.log("❌ Errors:", result.errors);<br>
+                });
+            </div>
+            <div class="log"><strong>Підказки:</strong><br>
+                Використати Promise.allSettled.<br>
+                Розділити результати на fulfilled і rejected.
+            </div>
+        </div>
         <script src="js/script.js"></script>
     </body>
 </html>
