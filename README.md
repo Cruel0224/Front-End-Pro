@@ -1,18 +1,22 @@
 
-DZ 49. Simulating events via setTimeout with subscription (pub/sub)
+DZ 50. Fake api
 
-TASK: Simulating events via setTimeout with subscription (pub/sub) — without Promises and async/await
+You have a function fetchUserData(userId) that returns a promise with user data (emulating an API request).
+You need to write a function getUsersData(userIds) that:
 
-Goal: implement the simplest event bus in the browser that can subscribe to events, unsubscribe, and emit events asynchronously via setTimeout.
+- Accepts an array of userIds.
+- Returns a <strong>promise</strong> that resolves to an array of user objects.
+- If at least one request ends with an error, the result should return an <strong>array of successful responses and an array of errors.</strong>
 
-Restrictions:
+<strong>Example call:</strong>
 
-- Browser JavaScript only.
-- Prohibited: Promises, async/await, third-party libraries.
-- Allowed: setTimeout, DOM events for manual inspection.
+const userIds = [1, 2, 3, 4, 5];
+getUsersData(userIds).then((result) => {
+console.log("✅ Success:", result.success);
+console.log("❌ Errors:", result.errors);
+});
 
-  
-The interface that needs to be implemented:
-- on(topic: string, handler: (payload:any) => void): () => void — subscription, returns an unsubscribe function.
-- emit(topic: string, payload?: any, delay = 0): void — asynchronous emission via setTimeout with the specified delay.
-- off(topic: string, handler: Function): void — unsubscribe.
+<strong>Tips:</strong>
+
+- Use Promise.allSettled.
+- Divide the results into fulfilled and rejected.
