@@ -10,10 +10,10 @@ You need to write a function getUsersData(userIds) that:
 
 <strong>Example call:</strong>
 
-const userIds = [1, 2, 3, 4, 5];
-getUsersData(userIds).then((result) => {
-console.log("✅ Success:", result.success);
-console.log("❌ Errors:", result.errors);
+const userIds = [1, 2, 3, 4, 5];<br>
+getUsersData(userIds).then((result) => {<br>
+console.log("✅ Success:", result.success);<br>
+console.log("❌ Errors:", result.errors);<br>
 });
 
 <strong>Tips:</strong>
