@@ -19,16 +19,24 @@ button:hover {
     background-color: #45a049;
 }
 
-#log {
+.log {
     margin-top: 20px;
     padding: 10px;
     background: #fff;
     border: 1px solid #ccc;
     height: 200px;
     overflow-y: auto;
+    width: 500px;
 }
 
 .log-entry {
     margin: 2px 0;
     font-family: monospace;
+}
+#app {
+    display: flex;
+    justify-content: space-evenly;
+}
+h2 {
+    text-align: center;
 }
