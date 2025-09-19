@@ -80,7 +80,6 @@ function App() {
                 </aside>
                 <main className="main">{renderContent()}</main>
             </div>
-            <footer className="footer">© 2025 MySite. Усі права захищені.</footer>
         </div>
     );
 }
