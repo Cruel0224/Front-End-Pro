@@ -12,7 +12,6 @@ function App() {
     const [age, setAge] = useState("");
     const [photo, setPhoto] = useState(null);
     const [users, setUsers] = useState([]);
-
     const handlePhotoChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             setPhoto(URL.createObjectURL(e.target.files[0]));
@@ -20,31 +19,23 @@ function App() {
             setPhoto(null);
         }
     };
-
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Валідація
         if (!firstName.trim() || !lastName.trim() || age === "" || age < 0 || !photo) {
             alert("Будь ласка, заповніть усі поля правильно!");
             return;
         }
-
         const newUser = { firstName, lastName, age, photo };
         setUsers([...users, newUser]);
-
-        // Очистка форми
         setFirstName("");
         setLastName("");
         setAge("");
         setPhoto(null);
-        e.target.reset(); // скидає input type="file"
+        e.target.reset();
     };
-
     return (
         <Container className="mt-4">
             <Row>
-                {/* Форма зліва */}
                 <Col md={6} className="border-end pe-3">
                     <h3>Додати користувача</h3>
                     <Form onSubmit={handleSubmit}>
@@ -57,7 +48,6 @@ function App() {
                                 required
                             />
                         </Form.Group>
-
                         <Form.Group className="mb-3">
                             <Form.Label>Прізвище</Form.Label>
                             <Form.Control
@@ -67,7 +57,6 @@ function App() {
                                 required
                             />
                         </Form.Group>
-
                         <Form.Group className="mb-3">
                             <Form.Label>Вік</Form.Label>
                             <Form.Control
@@ -78,7 +67,6 @@ function App() {
                                 required
                             />
                         </Form.Group>
-
                         <Form.Group className="mb-3">
                             <Form.Label>Фото</Form.Label>
                             <Form.Control
@@ -88,14 +76,11 @@ function App() {
                                 required
                             />
                         </Form.Group>
-
                         <Button variant="primary" type="submit">
                             Додати
                         </Button>
                     </Form>
                 </Col>
-
-                {/* Список користувачів справа */}
                 <Col md={6} className="ps-3">
                     <h3>Список користувачів</h3>
                     <div className="d-flex flex-wrap gap-3">
