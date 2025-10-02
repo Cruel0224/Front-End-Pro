@@ -1,4 +1,4 @@
-DZ 60. Timer with life cycle control
+<strong>DZ 60. Timer with life cycle control</strong>
 
 
 1. Create a Timer class component that:
