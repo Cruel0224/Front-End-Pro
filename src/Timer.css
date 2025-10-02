@@ -1,0 +1,21 @@
+.timer {
+    text-align: center;
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.timer h3 {
+    font-size: 28px;
+    color: green;
+}
+.timer h3.stopped {
+    color: red;
+}
+button {
+    margin: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
