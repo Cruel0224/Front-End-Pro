@@ -19,4 +19,5 @@
 - Do some styling via CSS (for example, when the timer is stopped, the numbers turn red).
 
 <strong>Do your homework using class and functional components.</strong>
+
 <strong>That is, there should be 2 versions of the solution: class and functional.</strong>
