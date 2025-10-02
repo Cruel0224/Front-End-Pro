@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./Timer.css";
 
 function TimerFunc({ unmountTimer }) {
     const [seconds, setSeconds] = useState(
@@ -44,3 +43,4 @@ function TimerFunc({ unmountTimer }) {
 }
 
 export default TimerFunc;
+
