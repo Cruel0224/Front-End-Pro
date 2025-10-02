@@ -18,7 +18,7 @@ function App() {
                         <button onClick={() => setShowClassTimer(true)}>
                             Mount Class Timer
                         </button>
-                    )};
+                    )}
                 </div>
                 <div>
                     <h2>Функціональний таймер</h2>
@@ -28,7 +28,7 @@ function App() {
                         <button onClick={() => setShowFuncTimer(true)}>
                             Mount Func Timer
                         </button>
-                    )};
+                    )}
                 </div>
             </div>
         </div>
