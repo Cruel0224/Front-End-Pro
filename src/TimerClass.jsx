@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Timer.css";
 
 class TimerClass extends Component {
     constructor(props) {
@@ -65,3 +64,4 @@ class TimerClass extends Component {
     };
 }
 export default TimerClass;
+
