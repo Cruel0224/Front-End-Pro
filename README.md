@@ -30,10 +30,10 @@ DZ 61. Weather Dashboard 🌤️
 
 <strong>Components</strong>
 
-- <App /> — is the main component
-- <SearchBar /> — input and search button
-- <WeatherCard /> — shows the weather for the current city
-- <FavoritesList /> — list of selected cities
+- App — is the main component
+- SearchBar — input and search button
+- WeatherCard — shows the weather for the current city
+- FavoritesList — list of selected cities
 
 <strong>Use</strong>
 
