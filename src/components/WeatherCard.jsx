@@ -5,6 +5,7 @@ function WeatherCard({ weather, forecast, onToggleFavorite, isFavorite }) {
         <div className="weather-card">
             <h2>
                 {weather.city}, {weather.country}
+                {weather.admin1 ? `, ${weather.admin1}` : ""}
             </h2>
             <p className="temp">{weather.temperature}°C</p>
             <p>{weather.description}</p>
