@@ -63,14 +63,7 @@ function App() {
         }
     };
 
-    // const handleCitySelect = (cityObj) => {
-    //     if (!cityObj.latitude || !cityObj.longitude) {
-    //         setSearchError("Немає координат для цього міста");
-    //         return;
-    //     }
-    //     setSearchError("");
-    //     fetchWeatherByCoords(cityObj);
-    // };
+
     const handleCitySelect = async (cityObj) => {
         if (!cityObj.latitude || !cityObj.longitude) {
             setSearchError("Немає координат для цього міста");
