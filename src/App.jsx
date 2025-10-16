@@ -6,11 +6,19 @@ import FavoritesList from "./components/FavoritesList";
 import useWeather from "./hooks/useWeather";
 
 function App() {
-    const { weather, forecast, loading, error, fetchWeather } = useWeather();
-    const [favorites, setFavorites] = useState(
-        JSON.parse(localStorage.getItem("favorites")) || []
-    );
-    const [background, setBackground] = useState("day-sunny");
+    const { weather, forecast, loading, error, fetchWeatherByCoords } = useWeather();
+    const [favorites, setFavorites] = useState(() => {
+        try {
+            const saved = localStorage.getItem("favorites");
+            return saved ? JSON.parse(saved) : [];
+        } catch {
+            return [];
+        }
+    });
+
+    const [background, setBackground] = useState("sunny");
+    const [searchError, setSearchError] = useState("");
+    const [searchOptions, setSearchOptions] = useState([]);
 
     useEffect(() => {
         if (weather) {
@@ -29,12 +37,47 @@ function App() {
         localStorage.setItem("favorites", JSON.stringify(favorites));
     }, [favorites]);
 
-    const toggleFavorite = (city) => {
-        if (favorites.includes(city)) {
-            setFavorites(favorites.filter((f) => f !== city));
+    const toggleFavorite = (cityObj) => {
+        if (!cityObj.latitude || !cityObj.longitude) return;
+
+        const exists = favorites.some(
+            (f) =>
+                f.city === cityObj.city &&
+                f.country === cityObj.country &&
+                f.admin1 === cityObj.admin1
+        );
+
+        if (exists) {
+            setFavorites(
+                favorites.filter(
+                    (f) =>
+                        !(
+                            f.city === cityObj.city &&
+                            f.country === cityObj.country &&
+                            f.admin1 === cityObj.admin1
+                        )
+                )
+            );
         } else {
-            setFavorites([...favorites, city]);
+            setFavorites([...favorites, cityObj]);
         }
+    };
+
+    // const handleCitySelect = (cityObj) => {
+    //     if (!cityObj.latitude || !cityObj.longitude) {
+    //         setSearchError("Немає координат для цього міста");
+    //         return;
+    //     }
+    //     setSearchError("");
+    //     fetchWeatherByCoords(cityObj);
+    // };
+    const handleCitySelect = async (cityObj) => {
+        if (!cityObj.latitude || !cityObj.longitude) {
+            setSearchError("Немає координат для цього міста");
+            return;
+        }
+        setSearchError("");
+        await fetchWeatherByCoords(cityObj);
     };
 
     return (
@@ -42,22 +85,51 @@ function App() {
             <div className="overlay">
                 <div className="container">
                     <h1 className="title">Погода</h1>
-                    <SearchBar onSearch={fetchWeather} />
+
+                    <SearchBar
+                        onSelectCity={handleCitySelect}
+                        onError={setSearchError}
+                        onOptionsChange={setSearchOptions}
+                    />
+
+                    {!weather && !loading && !error && !searchError && searchOptions.length === 0 && (
+                        <p className="empty">
+                            Введіть назву міста, щоб переглянути погоду 🌤️
+                        </p>
+                    )}
+
                     {loading && <p>Завантаження...</p>}
                     {error && <p className="error">{error}</p>}
+                    {searchError && <p className="error">{searchError}</p>}
+
                     {weather && (
                         <WeatherCard
                             weather={weather}
                             forecast={forecast}
-                            onToggleFavorite={toggleFavorite}
-                            isFavorite={favorites.includes(weather.city)}
+                            onToggleFavorite={() => toggleFavorite(weather)}
+                            isFavorite={favorites.some(
+                                (f) =>
+                                    f.city === weather.city &&
+                                    f.country === weather.country &&
+                                    f.admin1 === weather.admin1
+                            )}
                         />
                     )}
+
                     <FavoritesList
                         favorites={favorites}
-                        onSelectCity={fetchWeather}
-                        onRemove={(city) =>
-                            setFavorites(favorites.filter((f) => f !== city))
+                        onSelectCity={handleCitySelect}
+                        onRemove={(cityObj) =>
+                            setFavorites(
+                                favorites.filter(
+                                    (f) =>
+                                        !(
+                                            f.city === cityObj.city &&
+                                            f.country === cityObj.country &&
+                                            f.admin1 === cityObj.admin1
+                                        )
+                                )
+                            )
                         }
                     />
                 </div>
