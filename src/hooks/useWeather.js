@@ -14,24 +14,21 @@ const useWeather = () => {
     const [forecast, setForecast] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const fetchWeather = async (city) => {
+
+
+    const fetchWeatherByCoords = async (cityObj) => {
         try {
             setLoading(true);
             setError("");
 
-            const geoRes = await fetch(
-                `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=uk`
-            );
-            if (!geoRes.ok) throw new Error("Помилка геокодування");
+            const { latitude, longitude, city, country, admin1 } = cityObj;
 
-            const geoData = await geoRes.json();
-            if (!geoData?.results?.length) throw new Error("Місто не знайдено");
-
-            const { latitude, longitude, name, country } = geoData.results[0];
+            if (!latitude || !longitude) throw new Error("Немає координат для цього міста");
 
             const weatherRes = await fetch(
                 `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`
             );
+
             if (!weatherRes.ok) throw new Error("Помилка отримання погоди");
 
             const data = await weatherRes.json();
@@ -42,12 +39,15 @@ const useWeather = () => {
             if (!current) throw new Error("Немає поточної погоди");
 
             setWeather({
-                city: name,
+                city,
                 country,
+                admin1,
                 temperature: current?.temperature,
                 windspeed: current?.windspeed,
                 weathercode: current?.weathercode,
                 description: getWeatherDescription(current?.weathercode),
+                latitude,
+                longitude,
             });
 
             const forecastData =
@@ -65,7 +65,7 @@ const useWeather = () => {
         }
     };
 
-    return { weather, forecast, loading, error, fetchWeather };
+    return { weather, forecast, loading, error, fetchWeatherByCoords };
 };
 
 export default useWeather;
