@@ -15,8 +15,8 @@ Create a <strong>Todo Manager</strong> application that has:
 - Displays a <strong>list of tasks.</strong>
 - There is a <strong>form</strong> for adding a new task (input + “Add” button).
 - Each task has:
-         - id
-         - title
-         - description
-         - status → "active" | "completed"
-         - createdAt
+-  id
+- title
+- description
+- status → "active" | "completed"
+- createdAt
