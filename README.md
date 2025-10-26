@@ -15,19 +15,19 @@ When the user submits the form, you need to send a put request to the server
 
 
 fetch('https://jsonplaceholder.typicode.com/posts/1', {<br>
-  method: 'PUT',\n
-  body: JSON.stringify({
-    id: 1,
-    title: 'foo',
-    body: 'bar',
-    userId: 1,
-  }),
-  headers: {
-    'Content-type': 'application/json; charset=UTF-8',
-  },
-})
-  .then((response) => response.json())
-  .then((json) => console.log(json));
+  method: 'PUT',<br>
+  body: JSON.stringify({<br>
+    id: 1,<br>
+    title: 'foo',<br>
+    body: 'bar',<br>
+    userId: 1,<br>
+  }),<br>
+  headers: {<br>
+    'Content-type': 'application/json; charset=UTF-8',<br>
+  },<br>
+})<br>
+  .then((response) => response.json())<br>
+  .then((json) => console.log(json));<br>
 
 
 
