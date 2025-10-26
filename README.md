@@ -14,7 +14,7 @@ After that, you need to insert the loaded data into the form fields and enable e
 When the user submits the form, you need to send a put request to the server
 
 
-fetch('https://jsonplaceholder.typicode.com/posts/1', {\n
+fetch('https://jsonplaceholder.typicode.com/posts/1', {<br>
   method: 'PUT',\n
   body: JSON.stringify({
     id: 1,
