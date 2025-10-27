@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Alert, Button, Form, Spinner } from "react-bootstrap";
+import PageHeader from "../components/PageHeader";
+import routerPaths from "../router/routerPaths";
 
 export default function EditPost() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        title: "",
-        body: "",
-        userId: "",
-    });
+    const [formData, setFormData] = useState({ title: "", body: "", userId: "" });
     const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [isRequestSuccess, setIsRequestSuccess] = useState(false);
 
     useEffect(() => {
         fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
@@ -22,6 +23,10 @@ export default function EditPost() {
                     userId: data.userId || "",
                 });
                 setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Error loading post:", err);
+                setLoading(false);
             });
     }, [id]);
 
@@ -32,62 +37,96 @@ export default function EditPost() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        if (saving) return;
 
-        fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-            method: "PUT",
-            body: JSON.stringify({
-                id: Number(id),
-                title: formData.title,
-                body: formData.body,
-                userId: Number(formData.userId),
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("Updated post:", data);
-                navigate("/posts");
+        setSaving(true);
+        try {
+            const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+                method: "PUT",
+                body: JSON.stringify({
+                    id: Number(id),
+                    title: formData.title,
+                    body: formData.body,
+                    userId: Number(formData.userId) || 1,
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
             });
+            await res.json();
+
+            setIsRequestSuccess(true);
+            setTimeout(() => navigate(routerPaths.posts), 2000);
+        } catch (error) {
+            console.error("Error updating post:", error);
+            setIsRequestSuccess(false);
+        } finally {
+            setSaving(false);
+        }
     };
 
-    if (loading) return <p className="text-center mt-4">Loading post...</p>;
+    if (loading)
+        return (
+            <div className="text-center mt-5">
+                <Spinner animation="border" role="status" />
+                <p>Loading post...</p>
+            </div>
+        );
 
     return (
-        <div className="container mt-4">
-            <h2>Edit Post #{id}</h2>
-            <form onSubmit={handleSubmit} className='col-md-6 offset-md-3'>
-                <div className="mb-3">
-                    <label className="form-label">Title</label>
-                    <input
+        <div>
+            <PageHeader title={`Edit Post #${id}`} />
+
+            {isRequestSuccess && (
+                <Alert variant="success" className="text-center">
+                    Post updated successfully!
+                </Alert>
+            )}
+
+            <Form className="col-md-6 offset-md-3" onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                        disabled={saving}
                         type="text"
-                        className="form-control"
+                        placeholder="Enter title"
                         name="title"
                         value={formData.title}
                         onChange={handleChange}
                         required
                     />
-                </div>
+                </Form.Group>
 
-                <div className="mb-3">
-                    <label className="form-label">Body</label>
-                    <textarea
-                        className="form-control"
+                <Form.Group className="mb-3">
+                    <Form.Label>Body</Form.Label>
+                    <Form.Control
+                        disabled={saving}
+                        as="textarea"
+                        placeholder="Enter body"
+                        rows={4}
                         name="body"
-                        rows="5"
                         value={formData.body}
                         onChange={handleChange}
                         required
-                    ></textarea>
-                </div>
+                    />
+                </Form.Group>
 
-                <button type="submit" className="btn btn-primary">
-                    Save Changes
-                </button>
-            </form>
+                <Button
+                    variant={saving ? "secondary" : "primary"}
+                    type="submit"
+                    className="d-flex align-items-center gap-2"
+                    disabled={saving}
+                >
+                    <span>Save Changes</span>
+                    {saving && (
+                        <Spinner animation="border" role="status" size="sm">
+                            <span className="visually-hidden">Saving...</span>
+                        </Spinner>
+                    )}
+                </Button>
+            </Form>
         </div>
     );
 }
