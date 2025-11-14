@@ -17,7 +17,12 @@ Develop a basic version of an online store, including a catalog page, product pa
 
 **Functional requirements**
 1. **Catalog page**
-- Displaying a list of products.
-- Ability to filter products by category, price.
-- Search for products by keywords.
-- Pagination for a large number of products.
+- *Displaying a list of products.*
+- *Ability to filter products by category, price.*
+- *Search for products by keywords.*
+- *Pagination for a large number of products.*
+2. **Product page**
+- *Displays detailed information about the product: name, description, price, image, availability in stock.*
+- *Ability to add the product to the cart.*
+- *Ability to select the quantity of the product to add to the cart.*
+- *Ability to view similar products.*
