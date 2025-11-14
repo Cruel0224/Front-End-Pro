@@ -41,3 +41,7 @@ Develop a basic version of an online store, including a catalog page, product pa
 
 
 ## **Non-functional requirements**
+
+### 1. **User Interface**
+- *Intuitive and user-friendly interface.*
+- *Responsive design for correct display on different devices (mobile phones, tablets, desktops).*
