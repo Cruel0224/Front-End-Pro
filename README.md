@@ -45,3 +45,9 @@ Develop a basic version of an online store, including a catalog page, product pa
 ### 1. **User Interface**
 - *Intuitive and user-friendly interface.*
 - *Responsive design for correct display on different devices (mobile phones, tablets, desktops).*
+
+
+Stack
+
+1. **HTML, CSS, SCSS, npm, JS**
+2. **React, Redux, RTKQuery, MUI, React Router, PropTypes, lodash, classnames**
