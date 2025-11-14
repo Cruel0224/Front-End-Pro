@@ -1,4 +1,4 @@
-#**DZ 64. Final Project**#
+# **DZ 64. Final Project**#
 
 Some of the functional requirements can be skipped, but if you want to thoroughly work on all the skills, I recommend doing them in full.
 
