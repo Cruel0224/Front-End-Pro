@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearCart } from '../features/cart/cartSlice';
+import { clearCart } from '../features/cartSlice';
 import { Box, TextField, Button, Typography, FormControl, Snackbar, Alert, Autocomplete, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetCitiesQuery, useLazyGetWarehousesQuery } from '../api/novaposhtaApi';
@@ -175,3 +175,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
