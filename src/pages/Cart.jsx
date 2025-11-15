@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, updateQuantity, clearCart } from '../features/cart/cartSlice';
+import { removeItem, updateQuantity, clearCart } from '../features/cartSlice';
 import { Box, Typography, IconButton, TextField, Button, Divider } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
@@ -79,3 +79,4 @@ const Cart = () => {
 };
 
 export default Cart;
+
