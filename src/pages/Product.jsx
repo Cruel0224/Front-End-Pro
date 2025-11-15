@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery, useGetProductsQuery } from '../api/productsApi';
 import { useDispatch } from 'react-redux';
-import { addItem } from '../features/cart/cartSlice';
+import { addItem } from '../features/cartSlice';
 import { Box, Typography, Button, TextField, CircularProgress } from '@mui/material';
 import ProductCard from '../components/ProductCard';
 
@@ -87,3 +87,4 @@ const Product = () => {
 };
 
 export default Product;
+
