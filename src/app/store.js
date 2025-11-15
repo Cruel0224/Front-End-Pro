@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { productsApi } from '../api/productsApi';
-import cartReducer from '../features/cart/cartSlice';
+import cartReducer from '../features/cartSlice';
 import { novaposhtaApi } from '../api/novaposhtaApi';
 
 export const store = configureStore({
@@ -14,3 +14,4 @@ export const store = configureStore({
             .concat(productsApi.middleware)
             .concat(novaposhtaApi.middleware),
 });
+
