@@ -1,0 +1,235 @@
+
+$primary-color: #1976d2;
+$secondary-color: #f50057;
+$accent-color: #ff9800;
+$bg-color: #f8f9fa;
+$text-color: #333;
+$font-family: 'Roboto', sans-serif;
+$border-radius: 12px;
+$spacing: 16px;
+$max-width: 1280px;
+$transition-time: 0.3s;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family;
+  margin: 0;
+  padding: 0;
+  background-color: $bg-color;
+  color: $text-color;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 0 $spacing;
+}
+
+.MuiAppBar-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.MuiToolbar-root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.MuiBadge-badge {
+  font-size: 0.75rem;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: $border-radius;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform $transition-time, box-shadow $transition-time, background-color $transition-time;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  animation: fade-in 0.5s ease-in-out forwards;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    background-color: #fdfdfd;
+  }
+
+  img {
+    width: 100%;
+    object-fit: cover;
+    transition: transform $transition-time;
+  }
+
+  .product-info {
+    padding: $spacing;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .product-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .product-price {
+    font-weight: 700;
+    color: $primary-color;
+    font-size: 1rem;
+  }
+}
+
+.button-primary,
+.button-secondary {
+  border-radius: $border-radius;
+  padding: 10px 22px;
+  font-weight: 600;
+  transition: all $transition-time;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+}
+
+.button-primary {
+  background: linear-gradient(135deg, $primary-color, $accent-color);
+  color: #fff;
+
+  &:hover {
+    background: linear-gradient(135deg, darken($primary-color, 5%), darken($accent-color, 5%));
+  }
+}
+
+.button-secondary {
+  background: linear-gradient(135deg, $secondary-color, $accent-color);
+  color: #fff;
+
+  &:hover {
+    background: linear-gradient(135deg, darken($secondary-color, 5%), darken($accent-color, 5%));
+  }
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing;
+
+  img {
+    border-radius: $border-radius;
+    transition: transform $transition-time;
+  }
+
+  &.cart-item-removed {
+    animation: fade-out 0.5s forwards;
+  }
+
+  &.cart-item-updated {
+    animation: highlight 0.5s forwards;
+  }
+}
+
+form {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: $border-radius;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+footer {
+  background-color: #1976d2;
+  color: #fff;
+  padding: 25px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fly-to-cart {
+  0% { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(200px, -200px) scale(0); opacity: 0; }
+}
+
+.fly {
+  position: absolute;
+  animation: fly-to-cart 0.8s forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@keyframes fade-out {
+  0% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(50px); }
+}
+
+@keyframes highlight {
+  0% { background-color: #fff3cd; }
+  100% { background-color: #fff; }
+}
+
+@media (max-width: 1024px) {
+  .product-card {
+    width: 48% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    width: 100% !important;
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .cart-item img {
+    width: 80px;
+  }
+}
